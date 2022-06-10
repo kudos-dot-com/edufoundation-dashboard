@@ -27,7 +27,7 @@ export default function CompleteFormExample() {
     hint2: "",
     correct_answer: "",
     chapter: "",
-    topic:"",
+    topic: "",
     subject: window.location.pathname.split("/")[2],
     exam: "",
     year: "",
@@ -61,14 +61,13 @@ export default function CompleteFormExample() {
     coptions[key] = value;
     setoptions(coptions);
     console.log(coptions);
-    if(key=="topic")
-    {
-      let findTopic = chapter.find(x=> x.topic==value)
-      console.log(findTopic)
-      coptions['chapter'] = findTopic.chapters[0];
+    if (key == "topic") {
+      let findTopic = chapter.find(x => x.topic == value);
+      console.log(findTopic);
+      coptions["chapter"] = findTopic.chapters[0];
       setoptions(coptions);
 
-      settopics(findTopic.chapters)
+      settopics(findTopic.chapters);
     }
   }
   async function handleSubmit(e) {
@@ -173,7 +172,7 @@ export default function CompleteFormExample() {
                 </Row>
 
                 <Row Form>
-                <Col md="6" className="form-group">
+                  <Col md="6" className="form-group">
                     <label htmlFor="feInputState">Topics</label>
                     <FormSelect
                       id="feInputState"
@@ -256,21 +255,18 @@ export default function CompleteFormExample() {
                         addOptions("exam", e.target.value);
                       }}
                     >
-                      <option>Choose...</option>
-                      <option>...</option>
-                      <option>jee mains</option>
-                      <option>neet</option>
-                      <option>jee advance</option>
-                      <option>wbjee</option>
+                      <option>JEE MAIN</option>
+                      <option>NEET</option>
+                      <option>JEE ADVANCE</option>
+                      <option>WBJEE</option>
                     </FormSelect>
                   </Col>
                   <Col md="2" className="form-group">
                     <label htmlFor="feInputZip">Year</label>
-                    onChange=
-                    {e => {
-                      addOptions("year", e.target.value);
-                    }}
                     <FormInput
+                      onChange={e => {
+                        addOptions("year", e.target.value);
+                      }}
                       id="feInputEmail"
                       type="text"
                       placeholder="year"
@@ -279,13 +275,6 @@ export default function CompleteFormExample() {
 
                   <Col md="4">
                     <CustomFileUpload />
-                  </Col>
-
-                  <Col md="12" className="form-group">
-                    <FormCheckbox>
-                      {/* eslint-disable-next-line */}I agree with your{" "}
-                      <a href="#">Privacy Policy</a>.
-                    </FormCheckbox>
                   </Col>
                 </Row>
                 <Button

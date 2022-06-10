@@ -55,7 +55,7 @@ export default function CompleteFormExample() {
     <Container>
       <ListGroup flush className="mt-5">
         <ListGroupItem className="p-3">
-        <Row form>
+          <Row form>
             <Col md="12" className="form-group">
               <label htmlFor="feInputState">topic</label>
               <FormSelect
@@ -88,14 +88,7 @@ export default function CompleteFormExample() {
               />
             </Col>
           </Row>
-          
 
-          <Col md="12" className="form-group">
-            <FormCheckbox>
-              {/* eslint-disable-next-line */}I agree with your{" "}
-              <a href="#">Privacy Policy</a>.
-            </FormCheckbox>
-          </Col>
           <Button
             onClick={e => {
               handleSubmit();
