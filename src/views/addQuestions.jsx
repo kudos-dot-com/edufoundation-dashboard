@@ -21,6 +21,7 @@ import network from "../network/axios";
 export default function CompleteFormExample() {
   const [coptions, setoptions] = useState({
     question: "",
+    questionImage: "",
     option1: "",
     option2: "",
     option3: "",
@@ -100,7 +101,7 @@ export default function CompleteFormExample() {
   };
 
   const handleAnswerUpload = async() => {
-    if(coptions.question!== "")
+    if(coptions.questionImage!== "")
     {
       const question = await handleUpload('question',coptions.question) 
     }
@@ -187,13 +188,20 @@ export default function CompleteFormExample() {
               <label htmlFor="feEmailAddress">Question</label>
                
                 <Row>
-                  
+                  <textarea
+                  row="5"
+                  style={{widht:'100%',height:'70px'}}
+                  placeholder="enter question"
+                   onChange={e => addOptions('question',e.currentTarget.files[0])}
+                  >
+                    
+                  </textarea>
                   <Col md="6">
                     <div className="custom-file mb-3">
                       <input
                         type="file"
                         ref={inputRef}
-                        onChange={e => addOptions('question',e.currentTarget.files[0])}
+                        onChange={e => addOptions('questionImage',e.currentTarget.files[0])}
                         className="custom-file-input"
                         id="customFile2"
                       />
