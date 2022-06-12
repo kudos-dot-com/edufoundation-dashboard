@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import storage from "../firebase/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import CustomFileUpload from "../components/components-overview/CustomFileUpload";
 import {
   Container,
@@ -19,24 +21,33 @@ import network from "../network/axios";
 export default function CompleteFormExample() {
   const [coptions, setoptions] = useState({
     question: "",
-    option1: "aaa",
+    option1: "",
     option2: "",
     option3: "",
     option4: "",
+    option1Image: "",
+    option2Image: "",
+    option3Image: "",
+    option4Image: "",
     hint1: "",
     hint2: "",
-    correct_answer: "",
+    correct_answer: [],
     chapter: "",
     topic: "",
-    subject: window.location.pathname.split("/")[2],
+    subject: window.location.pathname.split("/")[2].toLowerCase(),
     exam: "",
     year: "",
     difficulty: ""
   });
+  const inputRef = useRef();
+  const [progress, setProgress] = useState(0);
+  const [progressShow, setProgressShow] = useState(false);
   const [chapter, setchapters] = useState([]);
   const [topic, settopics] = useState([]);
-
+  const [answers, setanswers] = useState([]);
+  const [options, setcardoptions] = useState([]);
   const [text, settext] = useState("submit");
+
   useEffect(() => {
     // console.log(useLocation())
     (async () => {
@@ -57,10 +68,92 @@ export default function CompleteFormExample() {
 
     // constr url = api.get.apiQues.replace(':subject',subject).replace(':chapter',coptions.chapter)
   }, []);
+
+  const handleUpload = async(key,value) => {
+    console.log(value);
+    setProgressShow(true);
+    const fileName = new Date().getTime() + value.name;
+    const storageRef = ref(storage, `/images/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, value);
+    uploadTask.on(
+      "state_changed",
+      snapshot => {
+        const uploaded = Math.floor(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(uploaded);
+      },
+      error => {
+        alert("error while uploading the image! check internet connection ")
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(url => {
+          // handleInputState(name, url);
+          coptions[key] = url;
+          setoptions(coptions);
+          console.log(coptions);
+          console.log(url);
+        });
+      }
+    );
+  };
+
+  const handleAnswerUpload = async() => {
+    if(coptions.question!== "")
+    {
+      const question = await handleUpload('question',coptions.question) 
+    }
+    else
+    {
+      alert("question not uploaded")
+    }
+
+    if(coptions.option1Image!== "")
+    {
+      const question = await handleUpload('option1Image',coptions.option1Image)  
+    }
+   
+    if(coptions.option2Image!== "")
+    {
+      const question = await handleUpload('option2Image',coptions.option2Image) 
+    }
+
+    if(coptions.option3Image!== "")
+    {
+      const question = await handleUpload('option3Image',coptions.option3Image)  
+    }
+
+    if(coptions.option4Image!== "")
+    {
+      const question = await handleUpload('option4Image',coptions.option4Image) 
+    }
+
+    
+
+
+  };
   function addOptions(key, value) {
+    settext("submit");
     coptions[key] = value;
     setoptions(coptions);
     console.log(coptions);
+    if (key == "correct_answer" && coptions[value] !== "") {
+      if (value !== "" && options.indexOf(value) == -1) {
+        let newArr = [];
+        newArr = [coptions[value], ...answers];
+        setanswers(newArr);
+        coptions[key] = newArr;
+        setoptions(coptions);
+
+        newArr = [...options, value];
+        setcardoptions(newArr);
+      } else {
+        coptions[key] = answers;
+        setoptions(coptions);
+      }
+    }
+
     if (key == "topic") {
       let findTopic = chapter.find(x => x.topic == value);
       console.log(findTopic);
@@ -80,6 +173,10 @@ export default function CompleteFormExample() {
     settext("submit");
     alert(result.message);
   }
+  async function deleteOptions(data) {
+    let deleteData = options.filter(x => x !== data);
+    setcardoptions(deleteData);
+  }
   return (
     <Container>
       <ListGroup flush>
@@ -87,20 +184,39 @@ export default function CompleteFormExample() {
           <Row>
             <Col>
               <Form>
+              <label htmlFor="feEmailAddress">Question</label>
+               
                 <Row>
-                  <Col md="12">
-                    <label htmlFor="feEmailAddress">Question</label>
-                    <textarea
-                      onChange={e => {
-                        addOptions("question", e.target.value);
-                      }}
-                      className="form-group outline-1"
-                      type="textarea"
-                      name="textarea"
-                      style={{ width: "100%", height: "50%" }}
-                    />
+                  
+                  <Col md="6">
+                    <div className="custom-file mb-3">
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        onChange={e => addOptions('question',e.currentTarget.files[0])}
+                        className="custom-file-input"
+                        id="customFile2"
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="customFile2"
+                      >
+                        Choose file...
+                      </label>
+                       {progressShow && progress < 100 && (
+                       alert('uploading')
+                      )}
+                      
+                    </div>
+                    {coptions.question!==""?<Col md="6">
+                  
+                  <h5>upload done</h5>
+             
+               </Col>:""}
                   </Col>
+                  
                 </Row>
+                {/* options */}
                 <Row form>
                   <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Option 1</label>
@@ -114,7 +230,31 @@ export default function CompleteFormExample() {
                       Row="5"
                     />
                   </Col>
-                  <Col md="6">
+                  <Col md="3">
+                  <label htmlFor="feEmailAddress">Option1 Image Upload</label>
+                    <div className="custom-file mb-3">
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        onChange={e => addOptions('option1Image',e.currentTarget.files[0])}
+                        className="custom-file-input"
+                        id="customFile2"
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="customFile2"
+                      >
+                        Choose file...
+                      </label>
+                      
+                      
+                    </div>
+                  </Col>
+
+                </Row>
+                
+                <Row form>
+                  <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Option 2</label>
                     <FormInput
                       onChange={e => {
@@ -126,9 +266,31 @@ export default function CompleteFormExample() {
                       Row="5"
                     />
                   </Col>
+                  <Col md="3">
+                  <label htmlFor="feEmailAddress">Option2 Image Upload</label>
+                    <div className="custom-file mb-3">
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        onChange={e => addOptions('option2Image',e.currentTarget.files[0])}
+                        className="custom-file-input"
+                        id="customFile2"
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="customFile2"
+                      >
+                        Choose file...
+                      </label>
+                    
+                      
+                    </div>
+                  </Col>
+                  
                 </Row>
+
                 <Row form>
-                  <Col>
+                  <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Option 3</label>
                     <FormInput
                       onChange={e => {
@@ -136,11 +298,35 @@ export default function CompleteFormExample() {
                       }}
                       id="feEmailAddress"
                       type="text"
-                      placeholder="Option 3"
+                      placeholder="Option 2"
                       Row="5"
                     />
                   </Col>
-                  <Col>
+                  <Col md="3">
+                  <label htmlFor="feEmailAddress">Option3 Image Upload</label>
+                    <div className="custom-file mb-3">
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        onChange={e => addOptions('option3Image',e.currentTarget.files[0])}
+                        className="custom-file-input"
+                        id="customFile2"
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="customFile2"
+                      >
+                        Choose file...
+                      </label>
+                      
+                      
+                    </div>
+                  </Col>
+                  
+                </Row>
+
+                <Row form>
+                  <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Option 4</label>
                     <FormInput
                       onChange={e => {
@@ -152,6 +338,44 @@ export default function CompleteFormExample() {
                       Row="5"
                     />
                   </Col>
+                  <Col md="3">
+                  <label htmlFor="feEmailAddress">Option4 Image Upload</label>
+                    <div className="custom-file mb-3">
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        onChange={e => addOptions('option4Image',e.currentTarget.files[0])}
+                        className="custom-file-input"
+                        id="customFile2"
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="customFile2"
+                      >
+                        Choose file...
+                      </label>
+                       
+                    </div>
+                  </Col>
+                  <Col md="3">
+                  
+                    </Col>
+                </Row>
+
+                {/* options section end */}
+                <Row Form>
+                  <Button className="mx-3 my-2" outline size='lg' onClick={(e)=>handleAnswerUpload()}>Upload</Button>
+                   
+                    {progressShow && progress < 100 && (
+                        <div className="my-3">
+                          <h5>uploading ...</h5>
+                        </div>
+                      )}
+                  {progress === 100 && (
+                        <div className="my-3">
+                          <h5>upload done!</h5>
+                        </div>
+                      )}    
                 </Row>
                 <Row form>
                   <Col md="12" className="form-group">
@@ -167,10 +391,38 @@ export default function CompleteFormExample() {
                       <option>option2</option>
                       <option>option3</option>
                       <option>option4</option>
+                      <option>option1Image</option>
+                      <option>option2Image</option>
+                      <option>option3Image</option>
+                      <option>option4Image</option>{" "}
                     </FormSelect>
                   </Col>
                 </Row>
 
+                <Row form>
+                  {options.length > 0 ? (
+                    <label>Your Selected Answers</label>
+                  ) : (
+                    ""
+                  )}
+                  <Col md="12" className="form-group d-flex">
+                    {options.map((data, idx) => {
+                      return (
+                        <Button
+                          onClick={e => {
+                            deleteOptions(data);
+                          }}
+                          className="mx-1"
+                          outline
+                          size="sm"
+                          key={idx}
+                        >
+                          {data}
+                        </Button>
+                      );
+                    })}
+                  </Col>
+                </Row>
                 <Row Form>
                   <Col md="6" className="form-group">
                     <label htmlFor="feInputState">Topics</label>
@@ -230,7 +482,7 @@ export default function CompleteFormExample() {
                     placeholder="Add Another Hint"
                   />
                 </FormGroup>
-
+               
                 <Row form>
                   <Col md="6" className="form-group">
                     <label htmlFor="feInputState">Difficulty Level</label>
