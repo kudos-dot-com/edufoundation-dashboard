@@ -103,7 +103,7 @@ export default function CompleteFormExample() {
   const handleAnswerUpload = async() => {
     if(coptions.questionImage!== "")
     {
-      const question = await handleUpload('question',coptions.question) 
+      const question = await handleUpload('questionImage',coptions.question) 
     }
     else
     {
