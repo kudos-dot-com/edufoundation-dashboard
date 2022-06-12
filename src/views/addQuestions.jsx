@@ -188,14 +188,16 @@ export default function CompleteFormExample() {
               <label htmlFor="feEmailAddress">Question</label>
                
                <Row>
+                 <Col md="12">
                <textarea
                   row="5"
                   style={{width:'100%',height:'70px'}}
                   placeholder="enter question"
-                   onChange={e => addOptions('question',e.currentTarget.files[0])}
+                  onChange={e => addOptions('question',e.target.value)}
                   >
                     
                   </textarea>
+                  </Col>
                </Row>
                 <Row>
                   
