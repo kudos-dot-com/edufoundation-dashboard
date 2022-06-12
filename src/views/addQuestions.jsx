@@ -187,15 +187,18 @@ export default function CompleteFormExample() {
               <Form>
               <label htmlFor="feEmailAddress">Question</label>
                
-                <Row>
-                  <textarea
+               <Row>
+               <textarea
                   row="5"
-                  style={{widht:'100%',height:'70px'}}
+                  style={{width:'100%',height:'70px'}}
                   placeholder="enter question"
                    onChange={e => addOptions('question',e.currentTarget.files[0])}
                   >
                     
                   </textarea>
+               </Row>
+                <Row>
+                  
                   <Col md="6">
                     <div className="custom-file mb-3">
                       <input
