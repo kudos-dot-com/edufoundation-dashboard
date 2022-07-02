@@ -103,7 +103,7 @@ export default function CompleteFormExample() {
   const handleAnswerUpload = async() => {
     if(coptions.questionImage!== "")
     {
-      const question = await handleUpload('questionImage',coptions.question) 
+     await handleUpload('questionImage',coptions.questionImage) 
     }
     else
     {
@@ -112,22 +112,22 @@ export default function CompleteFormExample() {
 
     if(coptions.option1Image!== "")
     {
-      const question = await handleUpload('option1Image',coptions.option1Image)  
+      await handleUpload('option1Image',coptions.option1Image)  
     }
    
     if(coptions.option2Image!== "")
     {
-      const question = await handleUpload('option2Image',coptions.option2Image) 
+      await handleUpload('option2Image',coptions.option2Image) 
     }
 
     if(coptions.option3Image!== "")
     {
-      const question = await handleUpload('option3Image',coptions.option3Image)  
+       await handleUpload('option3Image',coptions.option3Image)  
     }
 
     if(coptions.option4Image!== "")
     {
-      const question = await handleUpload('option4Image',coptions.option4Image) 
+       await handleUpload('option4Image',coptions.option4Image) 
     }
 
     
