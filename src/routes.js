@@ -12,7 +12,7 @@ import AddTopics from './views/addTopic'
 import AddChapters from './views/addChapters'
 import AddQuestions from './views/addQuestions'
 import viewChapters from './views/viewChapters'
-
+import Bulk from './views/bulkUpload'
 import BlogOverview from "./views/BlogOverview";
 import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
@@ -52,7 +52,13 @@ export default [
     path: "/view-chapters/physics",
     layout: DefaultLayout,
     component: viewChapters
-  },{
+  },
+  {
+    path: "/bulk-upload/physics",
+    layout: DefaultLayout,
+    component: Bulk
+  },
+  {
     path: "/view-questions/physics",
     layout: DefaultLayout,
     component: Subject
@@ -76,6 +82,11 @@ export default [
     path: "/add-questions/chemistry",
     layout: DefaultLayout,
     component: AddQuestions
+  },
+  {
+    path: "/bulk-upload/chemistry",
+    layout: DefaultLayout,
+    component: Bulk
   },{
     path: "/view-chapters/chemistry",
     layout: DefaultLayout,
@@ -106,6 +117,11 @@ export default [
     component: AddQuestions
   },
   {
+    path: "/bulk-upload/biology",
+    layout: DefaultLayout,
+    component: Bulk
+  },
+  {
     path: "/view-chapters/biology/",
     layout: DefaultLayout,
     component: viewChapters
@@ -133,6 +149,11 @@ export default [
     path: "/view-chapters/mathematics",
     layout: DefaultLayout,
     component: viewChapters
+  },
+  {
+    path: "/bulk-upload/mathematics",
+    layout: DefaultLayout,
+    component: Bulk
   },
   {
     path: "/blog-overview",

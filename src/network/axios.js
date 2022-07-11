@@ -26,5 +26,22 @@ async function postUrl(url, details) {
     console.log(error);
   }
 }
-const network = { getUrl, postUrl };
+async function formUrl(url, details) {
+  try {
+    console.log(url,details.get('file'));
+    const requestOptions = {
+      method: 'POST',
+      // headers: { 'Content-Type': 'multipart/form-data;boundary=XXX' },
+      body:details
+  };
+  
+    const response = await fetch(url,requestOptions)
+    // console.log(response);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+const network = { getUrl, postUrl,formUrl };
 export default network;

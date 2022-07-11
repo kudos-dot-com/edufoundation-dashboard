@@ -11,6 +11,9 @@ module.exports = {
     { title: "Add Questions",
       to: "add-questions"
     },
+    { title: "Bulk Upload",
+      to: "bulk-upload"
+    },
     {
       title: "View Chapters",
       to: "view-chapters"

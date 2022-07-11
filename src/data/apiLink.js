@@ -20,6 +20,7 @@ const api = {
 
   //POST
   post: {
+    bulkUpload:base+"/question/bulkupload",
     apiChapter: base + "/chapter/add",
     // topica
     apiTopic: base + "/topic/add",
