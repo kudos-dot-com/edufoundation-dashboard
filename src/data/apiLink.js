@@ -4,18 +4,8 @@ const api = {
   get: {
     getChapters: base + "/chapter/chapter/",
     getChaptersTopic: base + "/chapter/chapter/topic/",
-    apiPhy:
-      "https://edu-foundation-kudos-dot-com.vercel.app/api/chapter/chapter/physics",
-    apiMath:
-      "https://edu-foundation-kudos-dot-com.vercel.app/api/chapter/chapter/mathematics",
-    apiBio:
-      "https://edu-foundation-kudos-dot-com.vercel.app/api/chapter/chapter/biology",
-    apiChem:
-      "https://edu-foundation-kudos-dot-com.vercel.app/api/chapter/chapter/chemistry",
-
-    apiQues:
-      "https://edu-foundation-bnqyscf9q-kudos-dot-com.vercel.app/api/question/getchapter/:subject/:chapter?page=1&limit=10",
     getTopics: base + "/topic/",
+    getAllQuestions:base + '/question/get/'
     },
 
   //POST
@@ -26,6 +16,9 @@ const api = {
     apiTopic: base + "/topic/add",
     //Questions
     apiQ: base + "/question/add"
+  },
+  delete:{
+    deleteQuestion: base + "/question/delete/"
   }
 };
 

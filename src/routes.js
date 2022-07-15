@@ -13,6 +13,7 @@ import AddChapters from './views/addChapters'
 import AddQuestions from './views/addQuestions'
 import viewChapters from './views/viewChapters'
 import Bulk from './views/bulkUpload'
+import viewQuestions from './views/viewQuestions'
 import BlogOverview from "./views/BlogOverview";
 import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
@@ -54,14 +55,14 @@ export default [
     component: viewChapters
   },
   {
+    path: "/view-questions/physics",
+    layout: DefaultLayout,
+    component: viewQuestions
+  },
+  {
     path: "/bulk-upload/physics",
     layout: DefaultLayout,
     component: Bulk
-  },
-  {
-    path: "/view-questions/physics",
-    layout: DefaultLayout,
-    component: Subject
   },
   // chemistry
   {

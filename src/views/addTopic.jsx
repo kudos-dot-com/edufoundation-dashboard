@@ -56,22 +56,7 @@ export default function CompleteFormExample() {
               />
             </Col>
           </Row>
-          {/* <Row form>
-                <Col md="12" className="form-group">
-                  <label htmlFor="feInputState">subject</label>
-                  <FormSelect id="feInputState"
-                    onChange={(e)=>{addOptions("subject",e.target.value)}}
-                  
-                  >
-                    <option>Choose...</option>
-                    <option>physics</option>
-                    <option>chemistry</option>
-                    <option>biology</option>
-                    <option>mathematics</option>
-
-                  </FormSelect>
-                </Col>                
-              </Row> */}
+        
 
           <Button
             onClick={e => {

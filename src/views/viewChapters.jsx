@@ -6,6 +6,8 @@ import Tables from "../components/subjectDashboard/table";
 export default function viewChapters() {
   const row = ["id", "no of subtopics", "no of questions", "created at"];
   const [col, setcol] = useState([]);
+  const [message,setmessage] = useState("fetching data from server...")
+
   useEffect(() => {
     (async () => {
       const subject = window.location.pathname.split("/")[2];
@@ -13,6 +15,9 @@ export default function viewChapters() {
       const url = api.get.getChaptersTopic + subject.toLowerCase() + "/";
       console.log(url);
       const chapters = await network.getUrl(url);
+      if(chapters.result.length==0){
+        setmessage("No Data Found")
+      }
       console.log(chapters);
 
       if (chapters) {
@@ -29,7 +34,7 @@ export default function viewChapters() {
           return <Tables row={row} col={data} idx={idx} key={idx} />;
         })
       ) : (
-        <div className="d-flex h-100 justify-content-center align-items-center capitalize"><h5>fetching data from server...</h5></div>
+        <div className="d-flex h-100 justify-content-center align-items-center capitalize"><h5>{message}</h5></div>
       )}
     </div>
   );

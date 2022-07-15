@@ -26,6 +26,23 @@ async function postUrl(url, details) {
     console.log(error);
   }
 }
+async function deleteUrl(url, details) {
+  try {
+    console.log(url,details);
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(details)
+  };
+  
+    const response = await fetch(url,requestOptions)
+    // console.log(response);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 async function formUrl(url, details) {
   try {
     console.log(url,details.get('file'));
@@ -43,5 +60,5 @@ async function formUrl(url, details) {
     console.log(error);
   }
 }
-const network = { getUrl, postUrl,formUrl };
+const network = { getUrl, postUrl,formUrl,deleteUrl };
 export default network;

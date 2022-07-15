@@ -2,7 +2,7 @@
   "name": "shards-dashboard-lite-react",
   "version": "1.0.0",
   "homepage": "./",
-  "proxy": "https://edu-foundation-k6zc6x0gi-kudos-dot-com.vercel.app/",
+  "proxy": "https://edu-foundation-5rbjhk2vo-kudos-dot-com.vercel.app/",
   "dependencies": {
     "axios": "0.27.2",
     "camelize": "^1.0.0",

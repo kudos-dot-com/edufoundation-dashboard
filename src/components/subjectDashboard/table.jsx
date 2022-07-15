@@ -6,6 +6,7 @@ const Tables = ({ row, col, idx }) => (
   <Container
     fluid
     className="text-center text-uppercase main-content-container uppercase px-4"
+    key-={idx}
   >
     {/* Page Header */}
     <Row noGutters className="page-header py-4">
