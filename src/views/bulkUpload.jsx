@@ -39,7 +39,7 @@ export default function CompleteFormExample() {
     var fd = new FormData();
     fd.append("file",coptions.file);
     fd.append("subject",coptions.subject);
-    console.log(fd.get("subject"));
+    console.log(fd.get("subject"),fd.get("file"));
 
     const url = api.post.bulkUpload;
     const result = await network.formUrl(url, fd);
